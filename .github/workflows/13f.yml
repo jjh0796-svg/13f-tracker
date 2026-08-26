@@ -1,0 +1,42 @@
+name: 13F check
+
+on:
+  schedule:
+    # 매일 07:30 KST (22:30 UTC). 13F 마감(분기말+45일) 시즌에 새 공시가 잡힌다.
+    - cron: "30 22 * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "check(새 공시만) / full(전체 강제)"
+        default: "check"
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - name: Run tracker
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          MODE="${{ github.event.inputs.mode || 'check' }}"
+          python tracker.py --$MODE
+      - name: Heartbeat
+        # 60일간 커밋이 없으면 GitHub이 스케줄 워크플로를 자동 비활성화하므로
+        # 월이 바뀔 때마다 1회 커밋이 발생하도록 한다 (13F는 분기에만 state 커밋이 생겨 걸릴 수 있음)
+        run: mkdir -p data && date -u +%Y-%m > data/heartbeat.txt
+      - name: Commit state
+        run: |
+          git config user.name "13f-bot"
+          git config user.email "actions@github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "state: $(date -u +%F)"
+          git push
