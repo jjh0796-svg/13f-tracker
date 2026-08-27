@@ -104,6 +104,8 @@ def handle(text):
     if not parts:
         return None
     cmd = parts[0].lstrip("/").lower()
+    # 텔레그램 메뉴 버튼용 영문 별칭 (메뉴 등록은 영문만 허용)
+    cmd = {"f13": "13f", "funds": "펀드목록", "trade": "수출"}.get(cmd, cmd)
 
     if cmd in ("start", "도움말", "help"):
         return HELP
