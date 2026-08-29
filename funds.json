@@ -1,14 +1,112 @@
 [
-  {"cik": 1067983, "name": "Berkshire Hathaway", "tag": "앵커·초장기"},
-  {"cik": 1536411, "name": "Duquesne Family Office", "tag": "매크로·로테이션"},
-  {"cik": 1336528, "name": "Pershing Square", "tag": "집중투자"},
-  {"cik": 1656456, "name": "Appaloosa LP", "tag": "집중투자"},
-  {"cik": 1061768, "name": "Baupost Group", "tag": "가치·역발상"},
-  {"cik": 1489933, "name": "DME Capital (Greenlight·아인혼)", "tag": "가치·역발상"},
-  {"cik": 1135730, "name": "Coatue Management", "tag": "테크"},
-  {"cik": 1541617, "name": "Altimeter Capital", "tag": "테크"},
-  {"cik": 1061165, "name": "Lone Pine Capital", "tag": "테크"},
-  {"cik": 1791786, "name": "Elliott Investment Management", "tag": "행동주의"},
-  {"cik": 1517137, "name": "Starboard Value", "tag": "행동주의"},
-  {"cik": 1040273, "name": "Third Point", "tag": "행동주의"}
+ {
+  "cik": 1067983,
+  "name": "Berkshire Hathaway",
+  "tag": "앵커·초장기"
+ },
+ {
+  "cik": 1536411,
+  "name": "Duquesne Family Office",
+  "tag": "매크로·로테이션"
+ },
+ {
+  "cik": 1336528,
+  "name": "Pershing Square",
+  "tag": "집중투자"
+ },
+ {
+  "cik": 1656456,
+  "name": "Appaloosa LP",
+  "tag": "집중투자"
+ },
+ {
+  "cik": 1061768,
+  "name": "Baupost Group",
+  "tag": "가치·역발상"
+ },
+ {
+  "cik": 1489933,
+  "name": "DME Capital (Greenlight·아인혼)",
+  "tag": "가치·역발상"
+ },
+ {
+  "cik": 1135730,
+  "name": "Coatue Management",
+  "tag": "테크"
+ },
+ {
+  "cik": 1541617,
+  "name": "Altimeter Capital",
+  "tag": "테크"
+ },
+ {
+  "cik": 1061165,
+  "name": "Lone Pine Capital",
+  "tag": "테크"
+ },
+ {
+  "cik": 1791786,
+  "name": "Elliott Investment Management",
+  "tag": "행동주의"
+ },
+ {
+  "cik": 1517137,
+  "name": "Starboard Value",
+  "tag": "행동주의"
+ },
+ {
+  "cik": 1040273,
+  "name": "Third Point",
+  "tag": "행동주의"
+ },
+ {
+  "cik": 1649339,
+  "name": "Scion Asset Management (버리)",
+  "tag": "역발상·숏"
+ },
+ {
+  "cik": 1029160,
+  "name": "Soros Fund Management",
+  "tag": "매크로·멀티"
+ },
+ {
+  "cik": 921669,
+  "name": "Icahn Carl C",
+  "tag": "행동주의"
+ },
+ {
+  "cik": 1167483,
+  "name": "Tiger Global",
+  "tag": "테크"
+ },
+ {
+  "cik": 1103804,
+  "name": "Viking Global",
+  "tag": "롱숏·로테이션"
+ },
+ {
+  "cik": 1697748,
+  "name": "ARK Investment (캐시 우드)",
+  "tag": "혁신성장"
+ },
+ {
+  "cik": 1273087,
+  "name": "Millennium Management",
+  "tag": "멀티전략 팟"
+ },
+ {
+  "cik": 1603466,
+  "name": "Point72 Asset Management",
+  "tag": "멀티전략 팟"
+ },
+ {
+  "cik": 1423053,
+  "name": "Citadel Advisors",
+  "tag": "멀티전략 팟"
+ },
+ {
+  "cik": 923093,
+  "name": "Tudor Investment",
+  "tag": "매크로"
+ }
 ]
