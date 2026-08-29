@@ -47,7 +47,8 @@ HELP = (
     "/13f 버크셔 — 펀드명 일부로 최근 분기 13F 요약\n"
     "/펀드목록 — 조회 가능한 펀드\n"
     "/수출 — 최신 수출입 잠정치 (약 15초 소요)\n"
-    "\n정기 발송(13F 시즌·수출입·마감스캔)은 평소처럼 자동으로 옵니다."
+    "/신호 005930 — 종목의 봇 신호 이력·채점 결과 (이름 일부도 가능)\n"
+    "\n정기 발송(13F 시즌·수출입·마감스캔·시그널보드)은 평소처럼 자동으로 옵니다."
 )
 
 
@@ -105,7 +106,8 @@ def handle(text):
         return None
     cmd = parts[0].lstrip("/").lower()
     # 텔레그램 메뉴 버튼용 영문 별칭 (메뉴 등록은 영문만 허용)
-    cmd = {"f13": "13f", "funds": "펀드목록", "trade": "수출"}.get(cmd, cmd)
+    cmd = {"f13": "13f", "funds": "펀드목록", "trade": "수출",
+           "signal": "신호", "signals": "신호"}.get(cmd, cmd)
 
     if cmd in ("start", "도움말", "help"):
         return HELP
@@ -130,6 +132,42 @@ def handle(text):
         if not hits:
             return f"'{' '.join(parts[1:])}' 와 맞는 펀드가 없습니다. /펀드목록 참고"
         return summarize_fund(hits[0])
+
+    if cmd == "신호":
+        # 알림 성과 신호 이력 조회 — signals.jsonl(전 봇 공용) + 주간 채점 결과
+        if len(parts) < 2:
+            return "형식: /신호 종목코드6자리 또는 /신호 종목명일부"
+        query = " ".join(parts[1:]).strip()
+        sig_path = Path.home() / "bots" / "signals.jsonl"
+        entries = []
+        if sig_path.exists():
+            for line in sig_path.read_text(encoding="utf-8-sig").splitlines():
+                try:
+                    s = json.loads(line)
+                except ValueError:
+                    continue
+                if s.get("code") == query or (
+                        not query.isdigit() and query in (s.get("name") or "")):
+                    entries.append(s)
+        if not entries:
+            return (f"'{query}' 관련 기록된 신호가 없습니다.\n"
+                    "(신호 기록은 방산·스파이크 등 종목 특정 알림 발송 시 쌓입니다)")
+        scored = {}
+        try:
+            scored = json.loads((Path.home() / "bots" / "signals_scored.json")
+                                .read_text(encoding="utf-8-sig"))
+        except Exception:
+            pass
+        name = entries[-1].get("name") or query
+        lines = [f"🎯 {name} 신호 이력 (총 {len(entries)}건, 최근 8건)"]
+        for s in sorted(entries, key=lambda x: x.get("ts", ""), reverse=True)[:8]:
+            key = f"{s['ts']}|{s['code']}|{s.get('bot', '')}"
+            sc = scored.get(key, {})
+            perf = " ".join(f"T+{h} {sc[f'r{h}']:+.1f}%"
+                            for h in (1, 5, 20) if f"r{h}" in sc) or "채점 대기"
+            arrow = {"up": "▲", "down": "▼"}.get(s.get("dir", ""), "")
+            lines.append(f"· {s['ts'][5:16]} [{s['bot']}] {arrow}{s.get('note', '')} — {perf}")
+        return "\n".join(lines)
 
     if cmd in ("수출", "수출입"):
         try:
